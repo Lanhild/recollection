@@ -1,0 +1,313 @@
+[colors]
+background = ${xrdb:color0:#222}
+background-alt = #444
+foreground = ${xrdb:color7:#222}
+foreground-alt = ${xrdb:color7:#222}
+primary = ${xrdb:color1:#222}
+secondary = ${xrdb:color2:#222}
+alert = ${xrdb:color3:#222}
+accent = ${xrdb:color1:#222}
+
+[constants/background]
+height = 40
+fixed-center = true
+padding = 4
+
+font-0 = ShureTechMono Nerd Font:pixelsize=13;4
+font-1 = ShureTechMono Nerd Font:fontformat=truetype:size=12;3
+font-2 = ShureTechMono Nerd Font:pixelsize=12;1
+font-3 = ShureTechMono Nerd Font:fontformat=truetype:size=17;3
+font-4 = ShureTechMono Nerd Font:fontformat=truetype:size=14;3
+
+wm-restack = bspwm
+
+[bar/top]
+inherit = constants/background
+width = 100%
+
+background = ${xrdb:color0:#222}
+foreground = ${xrdb:color7:#222}
+
+modules-left = rofimenu separator bspwm
+modules-right = cpu separator memory separator battery separator date separator powermenu
+modules-center = player
+
+[bar/bottom]
+inherit = constants/background
+width = 100%
+
+bottom = true
+
+background = ${xrdb:color0:#222}
+foreground = ${xrdb:color7:#222}
+
+modules-right = backlight-acpi separator pulseaudio separator wlan
+tray-position = left
+
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+
+[module/xbacklight]
+type = internal/xbacklight
+
+format = <label> <bar>
+label = 
+
+bar-width = 10
+bar-foreground = ${colors.accent}
+bar-gradient = false
+bar-indicator = ⏽
+bar-indicator-font = 2
+bar-fill = ⏽
+bar-fill-font = 2
+bar-fill-foreground = ${colors.accent}
+bar-empty = ⏽
+bar-empty-font = 2
+bar-empty-foreground = ${colors.foreground-alt}
+
+[module/wlan]
+type = internal/network
+interface = wlp4s0
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+format-connected-underline = #9f78e1
+label-connected = %essid%
+
+format-disconnected = 睊
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+ramp-signal-0 = 直
+ramp-signal-foreground = ${colors.accent}
+
+[module/date]
+type = internal/date
+interval = 5
+
+date =
+date-alt = " %Y-%m-%d"
+
+time = %H:%M
+time-alt = %H:%M:%S
+
+format-prefix = 
+format-prefix-foreground = ${colors.accent}
+format-prefix-font = 5
+format-underline = #0a6cf5
+
+label = %date% %time%
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <label-volume> <bar-volume>
+label-volume = 墳 %percentage%%
+label-volume-foreground = ${root.foreground}
+
+label-muted = muted
+label-muted-foreground = #666
+
+bar-volume-width = 10
+bar-volume-foreground = ${colors.accent}
+
+bar-volume-gradient = true
+bar-volume-indicator = ⏽
+bar-volume-indicator-font = 2
+bar-volume-fill = ⏽
+bar-volume-fill-font = 2
+bar-volume-fill-foreground = ${colors.accent}
+bar-volume-empty = ⏽
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+
+
+[module/battery]
+type = internal/battery
+battery = BAT1
+adapter = ACAD
+full-at = 98
+
+label-charging = "    %percentage%%"
+label-discharging = "    %percentage%%"
+label-full = "    100%"
+
+format-charging = <animation-charging> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <ramp-capacity> <label-full>
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-foreground = ${colors.foreground}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-foreground = ${colors.foreground}
+animation-charging-framerate = 750
+
+[module/rofimenu]
+type = custom/text
+content = "   Run"
+content-foreground = ${colors.foreground}
+click-left = rofi -show drun
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = ﬙
+format-prefix-font = 4
+format-prefix-foreground = ${colors.accent}
+format-underline = #f90000
+label = %percentage:2%%
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 40
+
+format = <ramp><label>
+format-underline = #f50a4d
+format-warn = <ramp><label-warn>
+format-warn-prefix = 
+format-warn-prefix-font = 5
+format-warn-prefix-foreground = ${colors.accent}
+
+format-prefix = "  "
+format-prefix-font = 5
+format-prefix-foreground = ${colors.accent}
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground-alt}
+
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = #4bffdc
+label = %percentage_used%%
+
+[module/player]
+type = internal/mpd
+format-online = <label-song>  <icon-prev> <toggle> <icon-next>
+format-online-prefix = " "
+
+icon-prev = " 玲"
+icon-play = 契
+icon-pause = 
+icon-next = "怜 "
+
+label-song = "%title%"
+label-song-maxlen = 25
+label-song-ellipsis = true
+
+[module/powermenu]
+type = custom/text
+content = ""
+content-foreground = #ff0000
+click-left = systemctl suspend && betterlockscreen -l blur
+
+[module/bspwm]
+type = internal/bspwm
+
+pin-workspaces = true
+inline-mode = false
+
+enable-click = true
+enable-scroll = true
+reverse-scroll = true
+
+fuzzy-match = true
+
+; ws-icon-[0-9]+ = label;icon
+; Note that the label needs to correspond with the bspwm workspace name
+;;ws-icon-0 = code;♚
+;;ws-icon-1 = office;♛
+;;ws-icon-2 = graphics;♜
+;;ws-icon-3 = mail;♝
+;;ws-icon-4 = web;♞
+;;ws-icon-default = ♟
+
+format = <label-state>
+
+label-monitor = %name%
+
+; If any values for label-dimmed-N are defined, the workspace/mode
+; colors will get overridden with those values if the monitor is out of focus
+; To only override workspaces in a specific state, use:
+;   label-dimmed-focused
+;   label-dimmed-occupied
+;   label-dimmed-urgent
+;   label-dimmed-empty
+;label-dimmed-foreground = ${color.FOREGROUND}
+;label-dimmed-underline = ${color.YELLOW}
+;label-dimmed-focused-background = ${color.foreground}
+
+label-focused = %name%
+label-focused-foreground = ${color.foreground}
+label-focused-background = ${color.background}
+;label-focused-underline = ${color.RED}
+label-focused-padding = 1
+
+label-occupied = %name%
+label-occupied-foreground = ${color.background}
+label-occupied-background = ${color.foreground}
+;label-occupied-underline = ${color.GREEN}
+label-occupied-padding = 1
+
+label-urgent = %name%
+label-urgent-foreground = ${color.background}
+label-urgent-background = ${color.foreground}
+;label-urgent-underline = ${color.RED}
+label-urgent-padding = 1
+
+label-empty = %name%
+label-empty-foreground = ${color.foreground}
+label-empty-padding = 1
+
+; Separator in between workspaces
+label-separator = " "
+label-separator-padding = 0
+;label-separator-foreground = ${color.YELLOW}
+
+[module/separator]
+type = custom/text
+content = "%{T3}/%{T-}"
+content-foreground = ${colors.foreground}
+content-padding = 3
+
+[module/left-angle]
+type = custom/text
+content = ""
+content-padding = 1
+
+[module/right-angle]
+type = custom/text
+content = ""
+content-padding = 1
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
